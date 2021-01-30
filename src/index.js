@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
 
     //listen to sendPositon and send it to every user
     socket.on('sendPosition', (position, callback) => {
-        io.emit('message', `https://google.com/maps?q=${position.latitude},${position.longitude}`)
+        io.emit('locationMessage', `https://google.com/maps?q=${position.latitude},${position.longitude}`)
         callback()
     })
 
