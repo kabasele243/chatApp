@@ -3,27 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href='/img/favicon.png'>
+    <link rel="stylesheet" href="/css/styles.min.css">
     <title>Chat App</title>
 </head>
-<body>
-        <h1>This is our chat app</h1> 
+<body class=''>
+    <div class='chat'>
+        <div class="chat__sidebar">
 
-        <div id='messages'></div>
-        
+        </div>
+        <div class="chat__main">
+            <div id='messages' class="chat__messages"></div>
 
-        <form id='message-form'>
-            <input name='message' placeholder="Message"/> 
-            <button>Send</button>
-        </form>
-        <button id='send-location'> Send Location</button>
+            <div class="compose">
+                <form id='message-form'>
+                    <input name='message' placeholder="Message"/> 
+                    <button>Send</button>
+                </form>
+                <button id='send-location'> Send Location</button>
+            </div>
+              
+
+        </div>
+    </div>
+  
     <script id='message-template' type='text/html'>
-        <div>
-                <p>{{createdAt}} - {{message}}</p>    
+        <div class='message'>
+            <p>
+                <span class="message__name">Some User Name </span>
+                <span class="message__meta">{{createdAt}}</span>
+            </p>
+                <p>{{message}}</p>    
         </div>
     </script>
 
     <script id='location-message-template' type='text/html'>
-        <div>
+        <div class='message'>
+            <p>
+                <span class="message__name">Some User Name </span>
+                <span class="message__meta">{{createdAt}}</span>
+            </p>
                 <p>{{createdAt}} - <a href="{{url}}" target="_blank">My current location</a></p>    
         </div>
     </script>
