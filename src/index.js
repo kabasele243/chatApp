@@ -3,7 +3,7 @@ const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
-const {generateMessage} = require('./utils/messages')
+const {generateMessage, generateUrl} = require('./utils/messages')
 
 
 const app = express()
@@ -37,7 +37,7 @@ io.on('connection', (socket) => {
 
     //listen to sendPositon and send it to every user
     socket.on('sendPosition', (position, callback) => {
-        io.emit('locationMessage', `https://google.com/maps?q=${position.latitude},${position.longitude}`)
+        io.emit('locationMessage', generateUrl(`https://google.com/maps?q=${position.latitude},${position.longitude}`))
         callback()
     })
 
