@@ -31,28 +31,30 @@ io.on('connection', (socket) => {
 
         socket.join(user.room)
         // on a new connection send a welcome message
-        socket.emit('message', generateMessage(`Welcome ${user.username}`))
+        socket.emit('message', generateMessage(`Welcome`, 'Admin'))
         // on a new connection boracast a new user connection
-        socket.broadcast.to(room).emit('message', generateMessage(`${user.username} has joined`))
+        socket.broadcast.to(room).emit('message', generateMessage(`${user.username} has joined`, 'Admin'))
         
         callback()
     })
 
     //listen to sendMessage and emit or send it to every user with io.emit
-    socket.on('sendMessage', (message, callback) => {
+    socket.on('sendMessage', (message, username, callback) => {
+        const user = getUser(socket.id)
         const filter = new Filter()
 
         if(filter.isProfane(message)){
             return callback('Profanity is not allowed')
         }
 
-        io.emit('message', generateMessage(message))
+        io.to(user.room).emit('message', generateMessage(message, user.username))
         callback('Delivered')
     })
 
     //listen to sendPositon and send it to every user
     socket.on('sendPosition', (position, callback) => {
-        io.emit('locationMessage', generateUrl(`https://google.com/maps?q=${position.latitude},${position.longitude}` ))
+        const user = getUser(socket.id)
+        io.to(user.room).emit('locationMessage', generateUrl(`https://google.com/maps?q=${position.latitude},${position.longitude}`, user.username ))
         callback()
     })
 
