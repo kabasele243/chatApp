@@ -35,6 +35,11 @@ io.on('connection', (socket) => {
         // on a new connection boracast a new user connection
         socket.broadcast.to(room).emit('message', generateMessage(`${user.username} has joined`, 'Admin'))
         
+        io.to(user, room ).emit('roomData', {
+            room: user.room,
+            users: getUsersInRoom(user.room)
+        })
+
         callback()
     })
 
@@ -58,10 +63,15 @@ io.on('connection', (socket) => {
         callback()
     })
 
+    
     socket.on('disconnect', () => {
         const user = removeUser(socket.id)
         if(user) {
             io.to(user.room).emit('message', generateMessage(`${user.username} has left`))
+            io.to(user.room).emit('roomData', {
+                room: user.room,
+                users: getUsersInRoom(user.room)
+            })
         }
     })
 
