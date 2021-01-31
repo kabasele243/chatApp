@@ -12,7 +12,7 @@ const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 
 //Options
-qs.parse()
+const {username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true})
 
 socket.on('message', (message) => {
     console.log(message)   
@@ -74,3 +74,4 @@ $locationSend.addEventListener('click', () => {
     })
 })
 
+socket.emit('join', {username, room})

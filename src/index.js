@@ -19,10 +19,17 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     //On a new connection console.log new connection
     console.log('New connection')
-    // on a new connection send a welcome message
-    socket.emit('message', generateMessage('Welcome'))
-    // on a new connection boracast a new user connection
-    socket.broadcast.emit('message', generateMessage('A new user has joined'))
+    
+
+    socket.on('join', ({ username, room}) => {
+        socket.join(room)
+        // on a new connection send a welcome message
+        socket.emit('message', generateMessage('Welcome'))
+        // on a new connection boracast a new user connection
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined`))
+
+    })
+
     //listen to sendMessage and emit or send it to every user with io.emit
     socket.on('sendMessage', (message, callback) => {
         const filter = new Filter()
