@@ -15,16 +15,16 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicDirectoryPath))
 
-// io is socket wrapping the server
+// io is socket wrapping the server whenever someon hit the server from the client the handshake happen
 io.on('connection', (socket) => {
     //On a new connection console.log new connection
     console.log('New connection')
-    
 
+//Listening to the event join sending from the client with the user and room name
     socket.on('join', ({ username, room}) => {
         socket.join(room)
         // on a new connection send a welcome message
-        socket.emit('message', generateMessage('Welcome'))
+        socket.emit('message', generateMessage(`Welcome ${username}`))
         // on a new connection boracast a new user connection
         socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined`))
 
