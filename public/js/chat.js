@@ -11,7 +11,8 @@ const $messages = document.querySelector('#messages')
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 
-
+//Options
+qs.parse()
 
 socket.on('message', (message) => {
     console.log(message)   
